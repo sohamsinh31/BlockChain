@@ -44,7 +44,7 @@ class Blockchain{
                 data
             );
             if(hash!==validatedHash) return false;
-            if(mat.abs(lastDiffuculty-difficulty)>1) return false;
+            if(Math.abs(lastDiffuculty-difficulty)>1) return false;
         }
         return true;
     }
