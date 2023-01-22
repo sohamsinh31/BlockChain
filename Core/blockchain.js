@@ -1,3 +1,4 @@
+const { json } = require('body-parser');
 const Block = require('./Block');
 const cryptoHash = require('./crypto-hash');
 
@@ -55,7 +56,7 @@ blockchain.addBlock({data : "Block1"});
 blockchain.addBlock({data : "Block2"});
 // console.log(blockchain);
 const result = Blockchain.isValidChain(blockchain.chain);
-console.log(blockchain.chain);
-console.log(result);
+console.log(JSON.stringify(blockchain.chain, null, 2));
+//console.log(result);
 module.exports = Blockchain;
 //nonce 
