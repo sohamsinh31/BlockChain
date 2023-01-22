@@ -5,7 +5,7 @@ const request = require('request');
 const Blockchain = require('./blockchain');
 const Pubsub = require('./publicsubscribe');
 
-const app = express();
+const route = express.Router()
 const blockchain = new Blockchain();
 const pubsub = new Pubsub({blockchain})
 const DEFAULT_PORT = 3000;
@@ -13,38 +13,17 @@ const ROOT_NODE_ADDRESS = `http://localhost:${DEFAULT_PORT}`;
 
 setTimeout(()=>pubsub.broadcastChain(),1000);
 
-app.use(bodyParser.json());
-app.get("/api/blocks",(req,res)=>{
+route.get("/blocks",(req,res)=>{
     res.json(blockchain.chain)
 });
 
-app.post("/api/mine",(req,res)=>{
+route.post("/mine",(req,res)=>{
     const {data} = req.body;
 
     blockchain.addBlock({data});
     pubsub.broadcastChain();
-    res.redirect('api/blocks')
+    res.json(blockchain.chain);
 });
 
-const synChains=()=>{
-    request({url:`${ROOT_NODE_ADDRESS}/api/blocks`},
-    (error,response,body)=>{
-        if(!error && response.statusCode === 200){
-            const rootChin = JSON.parse(body);
-            console.log('Replace chain on sink with',rootChin)
-            blockchain.replaceChain(rootChin)
-        }
-    })
-}
 
-let PEER_PORT;
-
-if(process.env.GENERATE_PEER_CODE==='true'){
-    PEER_PORT=DEFAULT_PORT + Math.ceil(Math.random()*1000);
-}
-
-const PORT=PEER_PORT || DEFAULT_PORT;
-app.listen(PORT,()=>{
-    console.log(`listening to PORT : ${PORT}`);
-    synChains();
-});
+module.exports = route;

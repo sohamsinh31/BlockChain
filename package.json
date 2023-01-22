@@ -4,10 +4,10 @@
   "description": "This is a blockchain project.",
   "main": "Block.js",
   "scripts": {
-    "test": "node blockchain.js",
-    "start": "node index.js",
-    "dev": "nodemon index.js",
-    "dev-peer": "cross-env GENERATE_PEER_PORT='true' nodemon index.js"
+    "test": "node ./Core/blockchain.js",
+    "start": "node ./Core/index.js",
+    "dev": "nodemon ./index.js",
+    "dev-peer": "cross-env GENERATE_PEER_PORT='true' nodemon ./index.js"
   },
   "author": "sohamsinh / sujal",
   "license": "ISC",
@@ -15,6 +15,7 @@
     "body-parser": "^1.20.1",
     "express": "^4.18.2",
     "hex-to-binary": "^1.0.1",
+    "mysql2": "^3.0.1",
     "redis": "^2.8.0",
     "request": "^2.88.0"
   },
